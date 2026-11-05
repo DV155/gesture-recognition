@@ -47,6 +47,7 @@ def classify_gesture(hand):
     wrist = hand[0]
 
     fingers = [
+        (4, 2),    # Thumb
         (8, 6),    # Index
         (12, 10),  # Middle
         (16, 14),  # Ring
