@@ -19,6 +19,13 @@ HAND_CONNECTIONS = [
     (0, 17)
 ]
 
+gesture_definitions = {
+    (True, True, True, True, True): "OPEN PALM",
+    (False, False, False, False, False): "FIST",
+    (False, True, True, False, False): "VICTORY",
+    (True, False, False, False, True): "ON CALL",
+}
+
 options = HandLandmarkerOptions(
     base_options=BaseOptions(
         model_asset_path=MODEL
@@ -35,11 +42,14 @@ cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 timestamp_ms = 0
 
-
-import math
-
 def distance(a, b):
     return math.hypot(a.x - b.x, a.y - b.y)
+
+def classify_thumb(hand):
+    pinky_mcp = hand[17]
+    if distance(hand[4], pinky_mcp) <= distance(hand[3], pinky_mcp):
+        return False
+    return distance(hand[4], hand[5]) > 0.5 * distance(hand[0], hand[9])
 
 
 def classify_gesture(hand):
@@ -47,14 +57,13 @@ def classify_gesture(hand):
     wrist = hand[0]
 
     fingers = [
-        (4, 2),    # Thumb
         (8, 6),    # Index
         (12, 10),  # Middle
         (16, 14),  # Ring
         (20, 18),  # Pinky
     ]
 
-    extended = []
+    extended = [classify_thumb(hand)]
 
     for tip_idx, pip_idx in fingers:
         tip_distance = distance(wrist, hand[tip_idx])
@@ -62,13 +71,8 @@ def classify_gesture(hand):
 
         extended.append(tip_distance > pip_distance * 1.15)
 
-    if all(extended):
-        return "OPEN PALM"
-
-    if not any(extended):
-        return "FIST"
-
-    return "UNKNOWN"
+    extended_tup = tuple(extended)
+    return gesture_definitions.get(extended_tup, "UNKNOWN")
 
 
 try:
