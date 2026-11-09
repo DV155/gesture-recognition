@@ -43,7 +43,7 @@ cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 timestamp_ms = 0
 
 def distance(a, b):
-    return math.hypot(a.x - b.x, a.y - b.y)
+    return math.dist((a.x, a.y, a.z), (b.x, b.y, b.z))
 
 def classify_thumb(hand):
     pinky_mcp = hand[17]
@@ -98,8 +98,8 @@ try:
             height, width, _ = frame.shape
 
             if results.hand_landmarks:
-                for hand_landmarks in results.hand_landmarks:
-                    gesture = classify_gesture(hand_landmarks)
+                for hand_landmarks, world_landmarks in zip(results.hand_landmarks, results.hand_world_landmarks):
+                    gesture = classify_gesture(world_landmarks)
                     points = []
 
                     for landmark in hand_landmarks:
