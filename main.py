@@ -24,6 +24,7 @@ gesture_definitions = {
     (False, True, False, False, True): "DIO HORNS",
     (True, True, False, False, True): "THWIP",
     (False, False, False, False, False): "FIST",
+    (True, False, False, False, False): "THUMBS", #THUMBS UP/DOWN only possible after adding directional checks
     (False, True, True, False, False): "VICTORY",
     (True, False, False, False, True): "ON CALL",
 }
