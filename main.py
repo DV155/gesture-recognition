@@ -21,6 +21,8 @@ HAND_CONNECTIONS = [
 
 gesture_definitions = {
     (True, True, True, True, True): "OPEN PALM",
+    (False, True, False, False, True): "DIO HORNS",
+    (True, True, False, False, True): "THWIP",
     (False, False, False, False, False): "FIST",
     (False, True, True, False, False): "VICTORY",
     (True, False, False, False, True): "ON CALL",
