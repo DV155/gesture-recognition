@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import math
+import numpy as np
 import time
 
 BaseOptions = mp.tasks.BaseOptions
@@ -44,6 +45,36 @@ cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 timestamp_ms = 0
+
+class OneEuroFilter:
+    def __init__(self, min_cutoff=1.0, beta=0.0, d_cutoff=1.0):
+        self.min_cutoff = min_cutoff
+        self.beta = beta
+        self.d_cutoff = d_cutoff
+        self.x_prev = None
+        self.dx_prev = None
+        self.t_prev = None
+
+    def __call__(self, x, t):
+        x = np.asarray(x, dtype=float)
+        if self.t_prev is None:
+            self.x_prev, self.dx_prev, self.t_prev = x, np.zeros_like(x), t
+            return x
+
+        te = t - self.t_prev
+        if te <= 0:
+            return self.x_prev
+
+        # 1. smoothed speed
+        dx = (x - self.x_prev) / te
+        dx_hat = exponential_smoothing(smoothing_factor(te, self.d_cutoff), dx, self.dx_prev)
+
+        cutoff = self.min_cutoff + self.beta * np.abs(dx_hat)
+
+        x_hat = exponential_smoothing(smoothing_factor(te, cutoff), x, self.x_prev)
+
+        self.x_prev, self.dx_prev, self.t_prev = x_hat, dx_hat, t
+        return x_hat
 
 def smoothing_factor(t_e, cutoff): #OEF - alpha calc
     r = 2 * math.pi * cutoff * t_e
