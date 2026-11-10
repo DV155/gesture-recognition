@@ -45,6 +45,13 @@ cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 timestamp_ms = 0
 
+def smoothing_factor(t_e, cutoff): #OEF - alpha calc
+    r = 2 * math.pi * cutoff * t_e
+    return r / (r + 1)
+
+def exponential_smoothing(a, x, x_prev): #OEF - output calc
+    return a * x + (1 - a) * x_prev
+
 def distance(a, b):
     return math.dist((a.x, a.y, a.z), (b.x, b.y, b.z))
 
