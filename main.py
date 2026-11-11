@@ -141,7 +141,11 @@ try:
 
             if results.hand_landmarks:
                 for hand_landmarks, world_landmarks, handedness in zip(results.hand_landmarks, results.hand_world_landmarks):
-                    gesture = classify_gesture(world_landmarks)
+                    side = handedness[0].category_name
+                    if side not in filters:
+                        filters[side] = OneEuroFilter()
+                    world = np.array([(p.x, p.y, p.z) for p in world_landmarks])
+                    gesture = classify_gesture(filters[side](world, time.perf_counter()))
                     points = []
 
                     for landmark in hand_landmarks:
@@ -191,6 +195,7 @@ try:
                     2
                 )
             else:
+                filters.clear()
                 cv2.putText(
                     frame,
                     "NO HAND DETECTED",
