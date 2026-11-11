@@ -45,6 +45,7 @@ cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 timestamp_ms = 0
+filters = {}
 
 class OneEuroFilter:
     def __init__(self, min_cutoff=1.0, beta=0.0, d_cutoff=1.0):
@@ -139,7 +140,7 @@ try:
             height, width, _ = frame.shape
 
             if results.hand_landmarks:
-                for hand_landmarks, world_landmarks in zip(results.hand_landmarks, results.hand_world_landmarks):
+                for hand_landmarks, world_landmarks, handedness in zip(results.hand_landmarks, results.hand_world_landmarks):
                     gesture = classify_gesture(world_landmarks)
                     points = []
 
