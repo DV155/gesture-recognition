@@ -84,7 +84,7 @@ def exponential_smoothing(a, x, x_prev): #OEF - output calc
     return a * x + (1 - a) * x_prev
 
 def distance(a, b):
-    return math.dist((a.x, a.y, a.z), (b.x, b.y, b.z))
+    return math.dist(a, b)
 
 def classify_thumb(hand):
     pinky_mcp = hand[17]
