@@ -181,19 +181,6 @@ try:
                         (255, 255, 0),
                         2,
                     )
-                now = time.perf_counter()
-                fps = 1 / (now - prev_time)
-                prev_time = now
-
-                cv2.putText(
-                    frame,
-                    f"FPS: {fps:.1f}",
-                    (20, frame.shape[0] - 20),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.7,
-                    (255, 255, 255),
-                    2
-                )
             else:
                 filters.clear()
                 cv2.putText(
@@ -205,6 +192,19 @@ try:
                     (0, 0, 255),
                     2
                 )
+            now = time.perf_counter()
+            fps = 1 / (now - prev_time)
+            prev_time = now
+
+            cv2.putText(
+                frame,
+                f"FPS: {fps:.1f}",
+                (20, frame.shape[0] - 20),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.7,
+                (255, 255, 255),
+                2
+            )
             cv2.imshow("MediaPipe Hands", frame)
 
             key = cv2.waitKey(1) & 0xFF
