@@ -29,6 +29,7 @@ gesture_definitions = {
     (True, False, False, False, False): "THUMBS", #THUMBS UP/DOWN only possible after adding directional checks
     (False, True, True, False, False): "VICTORY",
     (True, False, False, False, True): "ON CALL",
+    # TBA: (True, True, False, False, False): "TRIGONOMETRY"
 }
 
 options = HandLandmarkerOptions(
