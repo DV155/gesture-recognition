@@ -176,7 +176,7 @@ try:
                     label_y = max(30, points[0][1] - 20)
                     cv2.putText(
                         frame,
-                        gesture,
+                        f"{side}: {gesture}", 
                         (label_x, label_y),
                         cv2.FONT_HERSHEY_SIMPLEX,
                         0.7,
