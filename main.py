@@ -161,6 +161,11 @@ try:
                         y = int(landmark.y * height)
                         points.append((x, y))
 
+                    if (points[5][0] < points[17][0]) == (side == "RIGHT"):
+                        facing = "PALM"
+                    else:
+                        facing = "BACK"
+
                     for start, end in HAND_CONNECTIONS:
                         cv2.line(
                             frame,
@@ -182,7 +187,7 @@ try:
                     label_y = max(30, points[0][1] - 20)
                     cv2.putText(
                         frame,
-                        f"{side}: {gesture}", 
+                        f"{side} {facing}: {gesture}", 
                         (label_x, label_y),
                         cv2.FONT_HERSHEY_SIMPLEX,
                         0.7,
