@@ -161,8 +161,6 @@ try:
                         y = int(landmark.y * height)
                         points.append((x, y))
 
-                    facing = "NOT SET YET"
-
                     if (points[5][0] < points[17][0]) == (side == "RIGHT"):
                         facing = "PALM"
                     else:
