@@ -169,7 +169,7 @@ try:
                     x_dist = points[9][0] - points[0][0]
                     y_dist = points[9][1] - points[0][1]
                     if abs(x_dist) > abs(y_dist):
-                        pointing = "UP" if y_dist < 0 else "DOWN"   # image y grows downward
+                        pointing = "UP" if y_dist < 0 else "DOWN"   # INTERIM SOLUTION: DOES NOT WORK!!!!!!!!
                     else:
                         pointing = "RIGHT" if x_dist > 0 else "LEFT"
 
