@@ -27,7 +27,8 @@ gesture_definitions = {
     (False, False, False, False, False): "FIST",
     (False, False, True, False, False): "THE BIRD",
     (True, False, False, False, False): "THUMBS",
-    (False, True, True, False, False): "VICTORY",
+    (False, True, True, False, False): "TWO", 
+    #Victory check separate
     (True, False, False, False, True): "ON CALL",
     # TBA: (True, True, False, False, False): "TRIGONOMETRY"
 }
@@ -155,9 +156,8 @@ try:
                     world = np.array([(p.x, p.y, p.z) for p in world_landmarks])
                     smoothed = filters[side](world, time.perf_counter())
                     gesture = classify_gesture(smoothed)
-                    #distance between fingers: check vars before adding
-                    #pinch_cm = distance(smoothed[4], smoothed[8]) * 100   # thumb tip ↔ index tip
-                    #spread_cm = distance(smoothed[8], smoothed[12]) * 100  # index tip ↔ middle tip
+                    thundex_spread = distance(smoothed[4], smoothed[8]) * 100   
+                    victory_spread = distance(smoothed[8], smoothed[12]) * 100
                     points = []
 
                     for landmark in hand_landmarks:
@@ -179,6 +179,9 @@ try:
 
                     if gesture == "THUMBS":
                         gesture = "THUMBS UP" if points[4][1] < points[2][1] else "THUMBS DOWN"
+
+                    if gesture == "TWO":
+                        gesture = "VICTORY" if victory_spread >= 5 else "TWO"
 
 
                     for start, end in HAND_CONNECTIONS:
