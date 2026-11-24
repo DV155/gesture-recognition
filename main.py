@@ -173,6 +173,9 @@ try:
                     else:
                         pointing = "RIGHT" if x_dist > 0 else "LEFT"
 
+                    if gesture == "THUMBS":
+                        gesture = "THUMBS UP" if points[4][1] < points[2][1] else "THUMBS DOWN"
+
 
                     for start, end in HAND_CONNECTIONS:
                         cv2.line(
