@@ -26,7 +26,7 @@ gesture_definitions = {
     (True, True, False, False, True): "THWIP",
     (False, False, False, False, False): "FIST",
     (False, False, True, False, False): "THE BIRD",
-    (True, False, False, False, False): "THUMBS", #THUMBS UP/DOWN only possible after adding directional checks
+    (True, False, False, False, False): "THUMBS",
     (False, True, True, False, False): "VICTORY",
     (True, False, False, False, True): "ON CALL",
     # TBA: (True, True, False, False, False): "TRIGONOMETRY"
@@ -153,7 +153,11 @@ try:
                     if side not in filters:
                         filters[side] = OneEuroFilter()
                     world = np.array([(p.x, p.y, p.z) for p in world_landmarks])
-                    gesture = classify_gesture(filters[side](world, time.perf_counter()))
+                    smoothed = filters[side](world, time.perf_counter())
+                    gesture = classify_gesture(smoothed)
+                    #distance between fingers: check vars before adding
+                    #pinch_cm = distance(smoothed[4], smoothed[8]) * 100   # thumb tip ↔ index tip
+                    #spread_cm = distance(smoothed[8], smoothed[12]) * 100  # index tip ↔ middle tip
                     points = []
 
                     for landmark in hand_landmarks:
