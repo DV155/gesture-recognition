@@ -166,6 +166,14 @@ try:
                     else:
                         facing = "BACK"
 
+                    x_dist = points[9][0] - points[0][0]
+                    y_dist = points[9][1] - points[0][1]
+                    if abs(x_dist) > abs(y_dist):
+                        pointing = "UP" if y_dist < 0 else "DOWN"   # image y grows downward
+                    else:
+                        pointing = "RIGHT" if x_dist > 0 else "LEFT"
+
+
                     for start, end in HAND_CONNECTIONS:
                         cv2.line(
                             frame,
@@ -187,7 +195,7 @@ try:
                     label_y = max(30, points[0][1] - 20)
                     cv2.putText(
                         frame,
-                        f"{side} {facing}: {gesture}", 
+                        f"{side} {facing} {pointing}: {gesture}", 
                         (label_x, label_y),
                         cv2.FONT_HERSHEY_SIMPLEX,
                         0.7,
