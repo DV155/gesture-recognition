@@ -170,12 +170,10 @@ try:
                     else:
                         facing = "BACK"
 
-                    x_dist = points[9][0] - points[0][0]
-                    y_dist = points[9][1] - points[0][1]
-                    if abs(x_dist) > abs(y_dist):
-                        pointing = "UP" if y_dist < 0 else "DOWN"   # INTERIM SOLUTION: DOES NOT WORK!!!!!!!!
-                    else:
-                        pointing = "RIGHT" if x_dist > 0 else "LEFT"
+                    #Not using so temporarily commenting out before i decide what to do
+                    # x_dist = points[9][0] - points[0][0]
+                    #y_dist = points[9][1] - points[0][1]
+                    
 
                     if gesture == "THUMBS":
                         gesture = "THUMBS UP" if points[4][1] < points[2][1] else "THUMBS DOWN"
