@@ -27,9 +27,9 @@ gesture_definitions = {
     (False, False, False, False, False): "FIST",
     (False, False, True, False, False): "THE BIRD",
     (True, False, False, False, False): "THUMBS",
-    (False, True, True, False, False): "TWO", 
-    #Victory check separate
+    (False, True, True, False, False): "TWO", #Victory check separate
     (True, False, False, False, True): "ON CALL",
+    #TBA: (False, False, True, True, True): "OK"
     # TBA: (True, True, False, False, False): "TRIGONOMETRY"
 }
 
