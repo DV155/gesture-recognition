@@ -97,13 +97,13 @@ def classify_thumb(hand):
     return distance(hand[4], hand[5]) > 0.5 * distance(hand[0], hand[9])
 
 def classify_hand_direction(hand, margin=1.5): #second temporary solution
-    wrist_knucle_vector = hand[9, :2] - hand[0, :2]
-    length_3d = np.linalg.norm(hand[9] - hand[0])
+    wrist_knuckle_vector = hand[9, :2] - hand[0, :2]
+    #length_3d = np.linalg.norm(hand[9] - hand[0])
 
-    if np.linalg.norm(wrist_knucle_vector) < 0.5 * length_3d:
-        return "FORWARD"
+    #if np.linalg.norm(wrist_knucle_vector) < 0.5 * length_3d:
+    #    return "FORWARD"
 
-    x_dist, y_dist = wrist_knucle_vector
+    x_dist, y_dist = wrist_knuckle_vector
     if abs(y_dist) > margin * abs(x_dist):
         if y_dist < 0:
             return "UP"
