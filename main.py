@@ -96,6 +96,25 @@ def classify_thumb(hand):
         return False
     return distance(hand[4], hand[5]) > 0.5 * distance(hand[0], hand[9])
 
+def classify_hand_direction(hand, margin=1.5): #second temporary solution
+    wrist_knucle_vector = hand[9, :2] - hand[0, :2]
+    length_3d = np.linalg.norm(hand[9] - hand[0])
+
+    if np.linalg.norm(wrist_knucle_vector) < 0.5 * length_3d:
+        return "FORWARD"
+
+    x_dist, y_dist = wrist_knucle_vector
+    if abs(y_dist) > margin * abs(x_dist):
+        if y_dist < 0:
+            return "UP"
+        else:
+            return "DOWN"
+    if abs(x_dist) > margin * abs(y_dist):
+        if x_dist > 0:
+            return "RIGHT"
+        else:
+            return "LEFT"
+    return "TILTED"
 
 def classify_gesture(hand):
     # Wrist, finger PIP joints, and fingertips
@@ -158,6 +177,7 @@ try:
                     gesture = classify_gesture(smoothed)
                     thundex_spread = distance(smoothed[4], smoothed[8]) * 100   
                     victory_spread = distance(smoothed[8], smoothed[12]) * 100
+                    pointing = classify_hand_direction(smoothed)
                     points = []
 
                     for landmark in hand_landmarks:
@@ -169,10 +189,6 @@ try:
                         facing = "PALM"
                     else:
                         facing = "BACK"
-
-                    #Not using so temporarily commenting out before i decide what to do
-                    # x_dist = points[9][0] - points[0][0]
-                    #y_dist = points[9][1] - points[0][1]
                     
 
                     if gesture == "THUMBS":
